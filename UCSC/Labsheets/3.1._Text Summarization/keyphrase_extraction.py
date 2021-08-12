@@ -51,11 +51,15 @@ def get_top_ngrams(corpus, ngram_val=1, limit=5):
     return sorted_ngrams   
     
 # Now try this function for bigrams
-get_top_ngrams(corpus=norm_alice, ngram_val=2,
+bigram = get_top_ngrams(corpus=norm_alice, ngram_val=2,
                limit=10)
+print("Bigram :")
+print(bigram)
 # And for bigrams
-get_top_ngrams(corpus=norm_alice, ngram_val=3,
+trigram = get_top_ngrams(corpus=norm_alice, ngram_val=3,
                limit=10)
+print("Trigram :")
+print(trigram)
 
 # NLTK has built-in collocation finders can use frequencies of pointwise mutual information (pmi)
 # Read and understand the intuitive meaning of PMI from the web
@@ -66,11 +70,12 @@ finder = BigramCollocationFinder.from_documents([item.split()
                                                 for item 
                                                 in norm_alice])
 bigram_measures = BigramAssocMeasures() 
-
+print(" NLTK collocation using raw frequencies - Bigram ")
 # Using raw frequencies for collocations                                          
-finder.nbest(bigram_measures.raw_freq, 10)
+print(finder.nbest(bigram_measures.raw_freq, 10))
 # Using mutual information scores for collocations
-finder.nbest(bigram_measures.pmi, 10)   
+print(" NLTK collocation using PMI - Bigram")
+print(finder.nbest(bigram_measures.pmi, 10))   
 
 
 # We can repeat the above for trigrams too
@@ -80,9 +85,11 @@ from nltk.collocations import TrigramAssocMeasures
 finder = TrigramCollocationFinder.from_documents([item.split() 
                                                 for item 
                                                 in norm_alice])
-trigram_measures = TrigramAssocMeasures()                                                
-finder.nbest(trigram_measures.raw_freq, 10)
-finder.nbest(trigram_measures.pmi, 10)  
+trigram_measures = TrigramAssocMeasures()  
+print(" NLTK collocation using PMI - Bigram ")                                            
+print(finder.nbest(trigram_measures.raw_freq, 10))
+print(" NLTK collocation using PMI - trigram ")
+print(finder.nbest(trigram_measures.pmi, 10)) 
 
 
 
@@ -158,6 +165,7 @@ def get_chunks(sentences, grammar = r'NP: {<DT>? <JJ>* <NN.*>+}'):
 sentences = parse_document(toy_text)          
 valid_chunks = get_chunks(sentences)
 # Print all valid chunks
+print(" Chunks ")
 print(valid_chunks)
 
 
@@ -182,12 +190,15 @@ def get_tfidf_weighted_keyphrases(sentences,
                               key=itemgetter(1), reverse=True)
     # Return the top n weighted phrases
     return weighted_phrases[:top_n]
-
+print("Key Phrases for Toy Dataset")
 # Get top 10 tf-idf weighted keyphrases for toy_text
-get_tfidf_weighted_keyphrases(sentences, top_n=10)
+toy_keyphrases = get_tfidf_weighted_keyphrases(sentences, top_n=10)
+print(toy_keyphrases)
 
+print("key phrases for Alice corpora")
 # Try with other corpora such as the Alice corpus from NLTK's Guttenburg collection
-get_tfidf_weighted_keyphrases(alice, top_n=10)
+alice_keyphrases = get_tfidf_weighted_keyphrases(alice, top_n=10)
+print(alice_keyphrases)
     
 
 

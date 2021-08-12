@@ -23,10 +23,10 @@ norm_tokenized_corpus = normalize_corpus(toy_corpus, tokenize=True)
 norm_tokenized_corpus
 
 dictionary = corpora.Dictionary(norm_tokenized_corpus)
-print(dictionary.token2id)
+print("Token to ID- Toy corpus - ",dictionary.token2id)
 
 corpus = [dictionary.doc2bow(text) for text in norm_tokenized_corpus]
-corpus
+print(corpus)
 
 tfidf = models.TfidfModel(corpus)
 corpus_tfidf = tfidf[corpus]
@@ -62,7 +62,7 @@ def print_topics_gensim(topic_model, total_topics=1,
             print(tw[:num_terms] if num_terms else tw)
         print()
     
-
+print("LSI Genseim model")
 print_topics_gensim(topic_model=lsi,
                     total_topics=total_topics,
                     num_terms=5,
@@ -129,7 +129,7 @@ def print_topics_udf(topics, total_topics=1,
         print()
 
 topics = get_topics_terms_weights(weights, feature_names)        
-
+print("LSI custome Built in model ")
 print_topics_udf(topics=topics,
                  total_topics=total_topics,
                  weight_threshold=0.15,
@@ -170,7 +170,7 @@ def train_lda_model_gensim(corpus, total_topics=2):
 
 lda_gensim = train_lda_model_gensim(toy_corpus,
                                     total_topics=2)
-                                    
+print("LDA Gensim model")                                    
 print_topics_gensim(topic_model=lda_gensim,
                     total_topics=2,
                     num_terms=5,
@@ -226,7 +226,7 @@ print_topics_udf(topics=topics,
                  
 import pandas as pd
                  
-CORPUS = pd.read_csv('amazon_skyrim_reviews.csv')                     
+CORPUS = pd.read_csv("G:/Github/NLP/UCSC/Labsheets/3.1._Text Summarization/amazon_skyrim_reviews.csv")                     
 CORPUS = np.array(CORPUS['Reviews'])
 
 # view sample review
@@ -245,6 +245,7 @@ print_topics_gensim(topic_model=lsi_gensim,
 
 lda_gensim = train_lda_model_gensim(CORPUS,
                                     total_topics=total_topics)
+print(" Amazon skyrim reviews - Gensim LDA model")
 print_topics_gensim(topic_model=lda_gensim,
                     total_topics=total_topics,
                     num_terms=10,
@@ -265,6 +266,7 @@ lda = LatentDirichletAllocation(n_components=total_topics,
 lda.fit(tfidf_matrix)
 weights = lda.components_
 topics = get_topics_terms_weights(weights, feature_names)
+print("Amazon skyrim reviews  - Sklearn LDA ")
 print_topics_udf(topics=topics,
                  total_topics=total_topics,
                  num_terms=10,
@@ -279,6 +281,7 @@ feature_names = vectorizer.get_feature_names()
 weights = nmf.components_
 
 topics = get_topics_terms_weights(weights, feature_names)
+print(" Amazon skyrim reviews - sklearn Non Negative Matrix Factorization ")
 print_topics_udf(topics=topics,
                  total_topics=total_topics,
                  num_terms=10,

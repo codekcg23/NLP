@@ -27,7 +27,7 @@ and convex or level backs.
 """
 
 # We define a function to calculate the summarization ratio - with default 0.5
-from gensim.summarization import summarize
+#from gensim.summarization import summarize
 
 # gensim uses the popular TextRank algorithm to produce its summaries
 def text_summarization_gensim(text, summary_ratio=0.5):
@@ -39,7 +39,7 @@ def text_summarization_gensim(text, summary_ratio=0.5):
 # Parse the document using code in our normalization.py module
 docs = parse_document(toy_text)
 text = ' '.join(docs) # 'flatten' the 'corpus' into a singe long string
-text_summarization_gensim(text, summary_ratio=0.4) # get a summary which is a little less than half the original
+#text_summarization_gensim(text, summary_ratio=0.4) # get a summary which is a little less than half the original
 
 
 
@@ -132,7 +132,7 @@ print(np.round(similarity_matrix.todense(), 2))
 # We can now build a similarity graph using the networkx package
 similarity_graph = networkx.from_scipy_sparse_matrix(similarity_matrix)
 # View the network for this simple 9 sentence similarity graph
-networkx.draw_networkx(similarity_graph)
+print(networkx.draw_networkx(similarity_graph))
 
 
 # Now compute the pagerank scores for all the sentences
@@ -220,11 +220,11 @@ and will engage in combat.
 sentences = parse_document(DOCUMENT)
 norm_sentences = normalize_corpus(sentences,lemmatize=True) 
 print("Total Sentences:", len(norm_sentences))
-
+print("LSA")
 lsa_text_summarizer(norm_sentences, num_sentences=3,
                     num_topics=5, feature_type='frequency',
                     sv_threshold=0.5)  
-
+print("TextRank")
 textrank_text_summarizer(norm_sentences, num_sentences=3,
                          feature_type='tfidf')
 
